@@ -11,7 +11,7 @@ cask "optiontab" do
   desc "Fast and minimal alt-tab behavior for macOS"
   homepage "https://github.com/basarsubasi/option-tab-macos"
 
-  depends_on macos: ">= :ventura"
+  depends_on macos: :ventura
 
   app "OptionTab.app"
 

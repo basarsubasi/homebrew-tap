@@ -15,16 +15,19 @@ cask "optiontab" do
 
   app "OptionTab.app"
 
-  # This caveat is printed to the user's terminal immediately after installation
-  caveats do
-    <<~EOS
-      Because OptionTab is not signed with a paid Apple Developer certificate, macOS will quarantine it.
-      To allow the app to run, you MUST run this command in your terminal:
-      
-        xattr -cr /Applications/OptionTab.app
-        
-      After running that, you can open OptionTab normally.
-    EOS
+  # Run after the app is copied to Applications
+  postflight do
+    # 1. Automatically remove the quarantine flag so the user never sees the "damaged app" error
+    system_command "xattr",
+                   args: ["-cr", "/Applications/OptionTab.app"],
+                   must_succeed: true,
+                   sudo: false
+                   
+    # 2. Launch the app immediately!
+    system_command "open",
+                   args: ["-a", "OptionTab"],
+                   must_succeed: false,
+                   sudo: false
   end
 
   # ==========================================

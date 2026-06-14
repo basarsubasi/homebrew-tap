@@ -36,7 +36,7 @@ cask "optiontab" do
             login_item: "OptionTab"
 
   # 2. Reset Accessibility Permissions via terminal
-  uninstall postflight do
+  uninstall_postflight do
     system_command "tccutil",
                    args: ["reset", "Accessibility", "com.optiontab.app"],
                    sudo: false

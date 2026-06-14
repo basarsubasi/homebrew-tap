@@ -22,8 +22,13 @@ cask "optiontab" do
                    args: ["-cr", "/Applications/OptionTab.app"],
                    must_succeed: true,
                    sudo: false
-                   
-    # 2. Launch the app immediately!
+    # 2. Add the app to the macOS Dock (preventing duplicates)
+    system_command "/bin/bash",
+                   args: ["-c", 'if ! defaults read com.apple.dock persistent-apps | grep -q "OptionTab.app"; then defaults write com.apple.dock persistent-apps -array-add "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/OptionTab.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>"; killall Dock; fi'],
+                   must_succeed: false,
+                   sudo: false
+
+    # 3. Launch the app immediately!
     system_command "open",
                    args: ["-a", "OptionTab"],
                    must_succeed: false,

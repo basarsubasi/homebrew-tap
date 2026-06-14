@@ -30,17 +30,20 @@ cask "optiontab" do
   # ==========================================
   # UNINSTALLATION & CLEANUP LOGIC
   # ==========================================
-  
-  # 1. Quit the app and remove it from macOS Login Items
-  uninstall quit:       "com.optiontab.app",
-            login_item: "OptionTab"
 
-  # 2. Reset Accessibility Permissions via terminal
-  uninstall_postflight do
+  # 1. Reset Accessibility Permissions via terminal
+  uninstall_preflight do
     system_command "tccutil",
                    args: ["reset", "Accessibility", "com.optiontab.app"],
                    sudo: false
   end
+
+  
+  # 2. Quit the app and remove it from macOS Login Items
+  uninstall quit:       "com.optiontab.app",
+            login_item: "OptionTab"
+
+
 
   # 3. Trash UserDefaults and settings
   zap trash: [

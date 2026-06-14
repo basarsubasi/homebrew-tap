@@ -1,0 +1,50 @@
+cask "optiontab" do
+  version "1.0.0"
+  
+  # Replace this with the output of `shasum -a 256 OptionTab-1.0.0.dmg`
+  sha256 "33631de454faec35ece8c5b8c11c89c8b73dcf1b2fcd9649c99a5ce8c40bae5b"
+
+  # Replace this with the actual URL to your GitHub release DMG
+  url "https://github.com/basarsubasi/option-tab-macos/releases/download/v#{version}/OptionTab-#{version}.dmg"
+  
+  name "OptionTab"
+  desc "Fast and minimal alt-tab behavior for macOS"
+  homepage "https://github.com/basarsubasi/option-tab-macos"
+
+  depends_on macos: ">= :ventura"
+
+  app "OptionTab.app"
+
+  # This caveat is printed to the user's terminal immediately after installation
+  caveats do
+    <<~EOS
+      Because OptionTab is not signed with a paid Apple Developer certificate, macOS will quarantine it.
+      To allow the app to run, you MUST run this command in your terminal:
+      
+        xattr -cr /Applications/OptionTab.app
+        
+      After running that, you can open OptionTab normally.
+    EOS
+  end
+
+  # ==========================================
+  # UNINSTALLATION & CLEANUP LOGIC
+  # ==========================================
+  
+  # 1. Quit the app and remove it from macOS Login Items
+  uninstall quit:       "com.optiontab.app",
+            login_item: "OptionTab"
+
+  # 2. Reset Accessibility Permissions via terminal
+  uninstall postflight do
+    system_command "tccutil",
+                   args: ["reset", "Accessibility", "com.optiontab.app"],
+                   sudo: false
+  end
+
+  # 3. Trash UserDefaults and settings
+  zap trash: [
+    "~/Library/Preferences/com.optiontab.app.plist",
+    "~/Library/Application Scripts/com.optiontab.app"
+  ]
+end

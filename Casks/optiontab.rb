@@ -35,10 +35,11 @@ cask "optiontab" do
   uninstall_preflight do
     system_command "tccutil",
                    args: ["reset", "Accessibility", "com.optiontab.app"],
-                   sudo: false
+                   sudo: false,
+                   must_succeed: false
   end
 
-  
+
   # 2. Quit the app and remove it from macOS Login Items
   uninstall quit:       "com.optiontab.app",
             login_item: "OptionTab"

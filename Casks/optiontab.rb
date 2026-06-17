@@ -1,8 +1,8 @@
 cask "optiontab" do
-  version "1.1.1"
+  version "1.1.2"
   
-  # Replace this with the output of `shasum -a 256 OptionTab-1.1.1.dmg`
-  sha256 "a1834a2e40b2f0db7ebfd4e80093ec33feab411c9be60770d2d279df88379ff9"
+  # Replace this with the output of `shasum -a 256 OptionTab-1.1.2.dmg`
+  sha256 "f49e2930f11a9d627b7fd4cbb62132867460d860a0c5efb5509dd5078641b5e3"
 
   # Replace this with the actual URL to your GitHub release DMG
   url "https://github.com/basarsubasi/option-tab-macos/releases/download/v#{version}/OptionTab-#{version}.dmg"
